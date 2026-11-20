@@ -25,6 +25,7 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 MANIFEST = os.path.join(ROOT, "manifest.json")
+LIB_DIR = "official"            # --library compare switches to compare/ + compare.json
 UA = "Mozilla/5.0 (compatible; LeonidaLogsCollector/1.0; +https://github.com)"
 IMG_RE = re.compile(r"https?://[^\s\"'<>()\\]+?\.(?:jpe?g|png|webp)(?:\?[^\s\"'<>()\\]*)?", re.I)
 GTA6_RE = re.compile(r"grand[-\s]theft[-\s]auto[-\s](?:vi|6)\b|\bgta[-\s]?(?:vi|6)\b", re.I)
@@ -62,6 +63,35 @@ SOURCES = [
         "follow": r"^https://news\.xbox\.com/en-us/\d{4}/\d{2}/\d{2}/",
         "require_gta6_title": True,
         "render": False,
+    },
+]
+
+# Official screenshots of OTHER Rockstar games, kept apart from the GTA 6 library
+# (compare/ + compare.json) and used only for side-by-side comparison posts.
+COMPARE_SOURCES = [
+    {
+        "name": "rockstar-gta-v",
+        "credit": "Rockstar Games",
+        "start": ["https://www.rockstargames.com/gta-v"],
+        "follow": r"^https://www\.rockstargames\.com/gta-v(/|$)",
+        "require_gta6_title": False,
+        "render": True,
+    },
+    {
+        "name": "rockstar-rdr2",
+        "credit": "Rockstar Games",
+        "start": ["https://www.rockstargames.com/reddeadredemption2"],
+        "follow": r"^https://www\.rockstargames\.com/reddeadredemption2(/|$)",
+        "require_gta6_title": False,
+        "render": True,
+    },
+    {
+        "name": "rockstar-trilogy",
+        "credit": "Rockstar Games",
+        "start": ["https://www.rockstargames.com/gta-the-trilogy"],
+        "follow": r"^https://www\.rockstargames\.com/gta-the-trilogy(/|$)",
+        "require_gta6_title": False,
+        "render": True,
     },
 ]
 
@@ -235,7 +265,7 @@ def save_image(data, src, manifest, hashes, seen_urls, img_url, page_url):
         return False
     sha = hashlib.sha1(data).hexdigest()[:10]
     day = datetime.now(timezone.utc).strftime("%Y%m%d")
-    rel = os.path.join("official", src["name"], f"{day}-{sha}.jpg")
+    rel = os.path.join(LIB_DIR, src["name"], f"{day}-{sha}.jpg")
     os.makedirs(os.path.join(ROOT, os.path.dirname(rel)), exist_ok=True)
     out = im.convert("RGB")
     if max(out.size) > MAX_SIDE:
@@ -336,10 +366,15 @@ def main():
     ap.add_argument("--max-new", type=int, default=200, help="new images per run (all sources)")
     ap.add_argument("--sources", help="JSON file overriding SOURCES (for testing)")
     ap.add_argument("--clean", action="store_true", help="re-filter and shrink the existing library, then exit")
+    ap.add_argument("--library", choices=["gta6", "compare"], default="gta6",
+                    help="gta6: official/ + manifest.json; compare: other Rockstar games in compare/ + compare.json")
     a = ap.parse_args()
+    global MANIFEST, LIB_DIR
+    sources = SOURCES
+    if a.library == "compare":
+        MANIFEST, LIB_DIR, sources = os.path.join(ROOT, "compare.json"), "compare", COMPARE_SOURCES
     if a.clean:
         return clean()
-    sources = SOURCES
     if a.sources:
         with open(a.sources) as fh:
             sources = json.load(fh)
