@@ -21,6 +21,7 @@ import requests
 from bs4 import BeautifulSoup
 from PIL import Image
 import imagehash
+import numpy as np
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 MANIFEST = os.path.join(ROOT, "manifest.json")
@@ -66,7 +67,33 @@ SOURCES = [
 
 MIN_W, MIN_H = 1200, 650        # smaller = logos, icons, thumbnails
 MAX_ASPECT = 2.6                # wider than this = banners
+SQUARE = (0.85, 1.15)           # square-ish = album covers, logos
+MAX_FLAT = 0.45                 # share of perfectly smooth 8x8 blocks; logos/cut-outs score 0.6+, screenshots < 0.35
 DUP_DISTANCE = 6                # phash distance treated as the same image
+MAX_SIDE = 2560                 # stored images are downscaled to this long side
+PER_SOURCE = 60                 # new images per source per run
+
+
+def flat_fraction(im):
+    """Share of 8x8 blocks with no texture. Screenshots have grain even in dark/sky areas;
+    logos, flat backgrounds and transparent cut-outs do not."""
+    a = np.asarray(im.convert("RGB").resize((384, 216)), dtype=np.float32)
+    H, W = a.shape[0] // 8 * 8, a.shape[1] // 8 * 8
+    b = a[:H, :W].reshape(H // 8, 8, W // 8, 8, 3).transpose(0, 2, 1, 3, 4).reshape(H // 8, W // 8, 64, 3)
+    return float((b.std(axis=2).max(axis=-1) < 2.0).mean())
+
+
+def looks_like_screenshot(im):
+    w, h = im.size
+    if w < MIN_W or h < MIN_H or max(w / h, h / w) > MAX_ASPECT:
+        return False
+    if SQUARE[0] <= w / h <= SQUARE[1]:
+        return False
+    if im.mode in ("RGBA", "LA", "P") and "transparency" in im.info or im.mode in ("RGBA", "LA"):
+        alpha = im.convert("RGBA").getchannel("A")
+        if alpha.getextrema()[0] < 250:          # any see-through area = cut-out art
+            return False
+    return flat_fraction(im) <= MAX_FLAT
 
 
 class Fetcher:
@@ -199,9 +226,9 @@ def save_image(data, src, manifest, hashes, seen_urls, img_url, page_url):
         im.load()
     except Exception:
         return False
-    w, h = im.size
-    if w < MIN_W or h < MIN_H or max(w / h, h / w) > MAX_ASPECT:
+    if not looks_like_screenshot(im):
         return False
+    w, h = im.size
     ph = imagehash.phash(im.convert("RGB"))
     if any(ph - old <= DUP_DISTANCE for old in hashes):
         seen_urls.add(img_url)
@@ -210,7 +237,11 @@ def save_image(data, src, manifest, hashes, seen_urls, img_url, page_url):
     day = datetime.now(timezone.utc).strftime("%Y%m%d")
     rel = os.path.join("official", src["name"], f"{day}-{sha}.jpg")
     os.makedirs(os.path.join(ROOT, os.path.dirname(rel)), exist_ok=True)
-    im.convert("RGB").save(os.path.join(ROOT, rel), "JPEG", quality=92)
+    out = im.convert("RGB")
+    if max(out.size) > MAX_SIDE:
+        out.thumbnail((MAX_SIDE, MAX_SIDE), Image.LANCZOS)
+    out.save(os.path.join(ROOT, rel), "JPEG", quality=88, optimize=True)
+    w, h = out.size
     manifest["images"].append({
         "file": rel, "credit": src["credit"], "source": src["name"],
         "page": page_url, "image_url": img_url, "width": w, "height": h,
@@ -232,9 +263,10 @@ def run(sources, render, delay, max_pages, max_new):
     try:
         for src in sources:
             log(f"[{src['name']}]")
+            src_added = 0
             follow = re.compile(src["follow"])
             queue, visited = list(src["start"]), set()
-            while queue and len(visited) < max_pages and added < max_new:
+            while queue and len(visited) < max_pages and added < max_new and src_added < PER_SOURCE:
                 url = queue.pop(0)
                 if url in visited:
                     continue
@@ -252,11 +284,12 @@ def run(sources, render, delay, max_pages, max_new):
                 if src["require_gta6_title"] and is_start:
                     continue                      # listing/search pages: only follow links
                 for img_url in sorted(imgs):
-                    if img_url in seen_urls or added >= max_new:
+                    if img_url in seen_urls or added >= max_new or src_added >= PER_SOURCE:
                         continue
                     data = f.image(img_url)
                     if data and save_image(data, src, manifest, hashes, seen_urls, img_url, url):
                         added += 1
+                        src_added += 1
                         log(f"  + {manifest['images'][-1]['file']}")
                     else:
                         rejected.add(img_url)
@@ -271,14 +304,41 @@ def run(sources, render, delay, max_pages, max_new):
     return added
 
 
+def clean():
+    """Re-check every stored image with the current filter; delete failures, shrink oversized ones."""
+    manifest = load_manifest()
+    rejected = set(manifest.get("rejected_urls", []))
+    kept, removed = [], 0
+    for e in manifest["images"]:
+        path = os.path.join(ROOT, e["file"])
+        if not os.path.exists(path):
+            continue
+        im = Image.open(path); im.load()
+        if not looks_like_screenshot(im):
+            os.remove(path); rejected.add(e["image_url"]); removed += 1
+            continue
+        if max(im.size) > MAX_SIDE:
+            im = im.convert("RGB"); im.thumbnail((MAX_SIDE, MAX_SIDE), Image.LANCZOS)
+            im.save(path, "JPEG", quality=88, optimize=True)
+            e["width"], e["height"] = im.size
+        kept.append(e)
+    manifest["images"], manifest["rejected_urls"] = kept, sorted(rejected)[-5000:]
+    with open(MANIFEST, "w") as fh:
+        json.dump(manifest, fh, indent=1)
+    log(f"Clean: removed {removed}, kept {len(kept)}.")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-render", action="store_true", help="plain HTML only (no headless browser)")
     ap.add_argument("--delay", type=float, default=1.5, help="seconds between page requests")
     ap.add_argument("--max-pages", type=int, default=40, help="pages per source per run")
-    ap.add_argument("--max-new", type=int, default=150, help="new images per run")
+    ap.add_argument("--max-new", type=int, default=200, help="new images per run (all sources)")
     ap.add_argument("--sources", help="JSON file overriding SOURCES (for testing)")
+    ap.add_argument("--clean", action="store_true", help="re-filter and shrink the existing library, then exit")
     a = ap.parse_args()
+    if a.clean:
+        return clean()
     sources = SOURCES
     if a.sources:
         with open(a.sources) as fh:
