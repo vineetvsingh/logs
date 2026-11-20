@@ -36,7 +36,7 @@ SOURCES = [
         "name": "rockstar-vi",
         "credit": "Rockstar Games",
         "start": ["https://www.rockstargames.com/VI"],
-        "follow": r"^https://www\.rockstargames\.com/VI(/|$)",
+        "follow": r"^https://www\.rockstargames\.com/VI(/|$)(?!media/artwork)",
         "require_gta6_title": False,   # every image on the GTA VI site is GTA 6
         "render": True,
     },
@@ -53,14 +53,6 @@ SOURCES = [
         "credit": "PlayStation",
         "start": ["https://blog.playstation.com/?s=grand+theft+auto+vi"],
         "follow": r"^https://blog\.playstation\.com/\d{4}/\d{2}/\d{2}/",
-        "require_gta6_title": True,
-        "render": False,
-    },
-    {
-        "name": "xbox-wire",
-        "credit": "Xbox",
-        "start": ["https://news.xbox.com/en-us/?s=grand+theft+auto+vi"],
-        "follow": r"^https://news\.xbox\.com/en-us/\d{4}/\d{2}/\d{2}/",
         "require_gta6_title": True,
         "render": False,
     },
