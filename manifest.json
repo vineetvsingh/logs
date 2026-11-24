@@ -2804,6 +2804,17 @@
    "height": 1440,
    "phash": "da903867272f0f5c",
    "collected_at": "2026-11-21T03:30:33+00:00"
+  },
+  {
+   "file": "official/rockstar-vi/20261124-ac6d77a439.jpg",
+   "credit": "Rockstar Games",
+   "source": "rockstar-vi",
+   "page": "https://www.rockstargames.com/VI",
+   "image_url": "https://www.rockstargames.com/VI/_next/static/media/178ok8411a55o5.0bzs42.6~szfb.jpg?akim=1&imdensity=1&imwidth=3840",
+   "width": 2560,
+   "height": 1440,
+   "phash": "8a651ee724de25d2",
+   "collected_at": "2026-11-24T06:19:38+00:00"
   }
  ],
  "rejected_urls": [
@@ -2832,7 +2843,9 @@
   "https://blog.playstation.com/tachyon/2021/10/2f0eecb116db81b14184b6c5076c5406453c850a.jpg?fit=40%2C40",
   "https://blog.playstation.com/tachyon/2021/10/2f0eecb116db81b14184b6c5076c5406453c850a.jpg?fit=400%2C400",
   "https://blog.playstation.com/tachyon/2021/10/ffd5ad352deb3eea48ea3d05647453367dbb002e.jpg?fit=40%2C40",
+  "https://blog.playstation.com/tachyon/2021/10/ffd5ad352deb3eea48ea3d05647453367dbb002e.jpg?fit=45%2C45",
   "https://blog.playstation.com/tachyon/2024/07/e62d7ee67f34efe0198dfd08dce5d8ef6a1995d5.jpeg?fit=400%2C400",
+  "https://blog.playstation.com/tachyon/2024/12/7c0bef87679a2f73feaa2645cb4b6e0a05f4f206.jpg?fit=1024%2C1024",
   "https://blog.playstation.com/tachyon/2026/06/4e0c56af92a53dae949e791f5ad397f1b8d1eaea.jpg",
   "https://blog.playstation.com/tachyon/2026/06/9245b6dd45a143b26a7877ec5a29bb5c3fc00eda.jpg",
   "https://blog.playstation.com/tachyon/2026/06/9245b6dd45a143b26a7877ec5a29bb5c3fc00eda.jpg?resize=1088%2C612&amp;crop_strategy=smart",
@@ -3104,6 +3117,7 @@
   "https://blog.playstation.com/tachyon/2026/11/fc43cd44ef39d1697bb5bef1fca7d08e7f90c647.jpg?resize=1088%2C612&amp;crop_strategy=smart&amp;zoom=1",
   "https://blog.playstation.com/tachyon/2026/11/fc43cd44ef39d1697bb5bef1fca7d08e7f90c647.jpg?resize=1088%2C612&crop_strategy=smart",
   "https://blog.playstation.com/tachyon/2026/11/fc43cd44ef39d1697bb5bef1fca7d08e7f90c647.jpg?resize=1088%2C612&crop_strategy=smart&zoom=1",
+  "https://blog.playstation.com/tachyon/2026/11/fd8023623ccb61c2b195870ea714209ebf52e951.jpg",
   "https://blog.playstation.com/tachyon/2026/11/fd8023623ccb61c2b195870ea714209ebf52e951.jpg?resize=1088%2C612&amp;crop_strategy=smart",
   "https://blog.playstation.com/tachyon/2026/11/fd8023623ccb61c2b195870ea714209ebf52e951.jpg?resize=1088%2C612&amp;crop_strategy=smart&amp;zoom=0.25",
   "https://blog.playstation.com/tachyon/2026/11/fd8023623ccb61c2b195870ea714209ebf52e951.jpg?resize=1088%2C612&amp;crop_strategy=smart&amp;zoom=0.32",
@@ -3113,6 +3127,8 @@
   "https://blog.playstation.com/tachyon/2026/11/fd8023623ccb61c2b195870ea714209ebf52e951.jpg?resize=1088%2C612&amp;crop_strategy=smart&amp;zoom=0.75",
   "https://blog.playstation.com/tachyon/2026/11/fd8023623ccb61c2b195870ea714209ebf52e951.jpg?resize=1088%2C612&amp;crop_strategy=smart&amp;zoom=0.99",
   "https://blog.playstation.com/tachyon/2026/11/fd8023623ccb61c2b195870ea714209ebf52e951.jpg?resize=1088%2C612&amp;crop_strategy=smart&amp;zoom=1",
+  "https://blog.playstation.com/tachyon/2026/11/fd8023623ccb61c2b195870ea714209ebf52e951.jpg?resize=1088%2C612&crop_strategy=smart",
+  "https://blog.playstation.com/tachyon/2026/11/fd8023623ccb61c2b195870ea714209ebf52e951.jpg?resize=1088%2C612&crop_strategy=smart&zoom=1",
   "https://blog.playstation.com/tachyon/2048/11/35ee932cfac0044b7c4d4d1d41f95533dd2f3202-scaled.jpg?resize=1088%2C612&amp;crop_strategy=smart",
   "https://blog.playstation.com/tachyon/2048/11/35ee932cfac0044b7c4d4d1d41f95533dd2f3202-scaled.jpg?resize=1088%2C612&amp;crop_strategy=smart&amp;zoom=0.19",
   "https://blog.playstation.com/tachyon/2048/11/35ee932cfac0044b7c4d4d1d41f95533dd2f3202-scaled.jpg?resize=1088%2C612&amp;crop_strategy=smart&amp;zoom=0.24",
@@ -3200,6 +3216,8 @@
   "https://live.staticflickr.com/65535/55657958240_3fbf6fc954_k.jpg",
   "https://media-rockstargames-com.akamaized.net/favicons/rockstar/favicon-180x180.png",
   "https://media-rockstargames-com.akamaized.net/mfe-r19/prod/__common/img/f4b0d9409df1e8a420b2118e4e601263.svg",
+  "https://media-rockstargames-com.akamaized.net/tina-uploads/posts/178ok8411a55o5/163945bc2aacd4b055f9aa59edeab3f6b1fd4c59.jpg",
+  "https://media-rockstargames-com.akamaized.net/tina-uploads/posts/178ok8411a55o5/e8d6109a3cb7685931b9a96621354d73239b271c.jpg",
   "https://media-rockstargames-com.akamaized.net/tina-uploads/posts/39ak81277255o9/71ee27202e87c888ad1b5e25b3e131e0da68dd36.jpg",
   "https://media-rockstargames-com.akamaized.net/tina-uploads/posts/39ak81277255o9/72074994d6364ad0de8872aa971fc47653f644ab.jpg",
   "https://media-rockstargames-com.akamaized.net/tina-uploads/posts/39ak8a12395591/cfc61a2d2e7b8c700e46582dc865e180b6c431d9.jpg",
@@ -3358,6 +3376,7 @@
   "https://www.rockstargames.com/VI/_next/static/media/DreQuan_Priest_landscape.0_b7hszyze6cy.jpg?akim=1&imdensity=1&imwidth=3840",
   "https://www.rockstargames.com/VI/_next/static/media/GTAVI_Merch_PromoCard.0_k5n2lk~h9h~.jpg?akim=1&imdensity=1&imwidth=3840",
   "https://www.rockstargames.com/VI/_next/static/media/GTAVI_MusicPage_AlbumArt.05qucexa8vzgb.jpg?akim=1&imdensity=1&imwidth=3840",
+  "https://www.rockstargames.com/VI/_next/static/media/GTAVI_MusicPage_AlbumArt.0kw-0nfi_jivq.jpg?akim=1&imdensity=1&imwidth=3840",
   "https://www.rockstargames.com/VI/_next/static/media/GTAVI_Official_Cover_Art_Landscape.03y6bcce9e2jr.jpg?akim=1&imdensity=1&imwidth=3840",
   "https://www.rockstargames.com/VI/_next/static/media/Grassrivers_05.0.dx9~67tljry.jpg?akim=1&imdensity=1&imwidth=3840",
   "https://www.rockstargames.com/VI/_next/static/media/Grassrivers_Postcard_landscape.15-10i39nhex2.jpg?akim=1&imdensity=1&imwidth=3840",
@@ -3444,6 +3463,7 @@
   "https://www.rockstargames.com/VI/_next/static/media/logo_vi.18a24uqvz-izs.png?akim=1&imdensity=1&imwidth=3840",
   "https://www.rockstargames.com/VI/_next/static/media/mapPromoCardMobile.10u5jrd23dmdq.jpg?akim=1&imdensity=1&imwidth=3840",
   "https://www.rockstargames.com/VI/_next/static/media/mediaMobile.0p_yfitphljim.jpg?akim=1&imdensity=1&imwidth=3840",
+  "https://www.rockstargames.com/VI/_next/static/media/meta.0t8ty~nlmxq2s.jpg?6wC5t2qhtJZtllO-YhLcO",
   "https://www.rockstargames.com/VI/_next/static/media/meta.0t8ty~nlmxq2s.jpg?8DSFc26rmFX7srA3UiIEb",
   "https://www.rockstargames.com/VI/_next/static/media/meta.0t8ty~nlmxq2s.jpg?TfXRuFEcaoj7Q2oKW_PXW",
   "https://www.rockstargames.com/VI/_next/static/media/mobile.01e24lvhdu677.jpg?akim=1&imdensity=1&imwidth=3840?akim=1&imdensity=1&imwidth=2560",
@@ -3588,5 +3608,5 @@
   "https://xboxwire.thesourcemediaassets.com/sites/2/2026/11/world-of-fallout-prepare-for-the-future_55651439266_o-b9c32d7a0950a13cc7c7-1600x900.jpg",
   "https://xboxwire.thesourcemediaassets.com/sites/2/2026/11/world-of-fallout-prepare-for-the-future_55651439266_o-b9c32d7a0950a13cc7c7-960x540.jpg"
  ],
- "updated_at": "2026-11-23T03:08:33+00:00"
+ "updated_at": "2026-11-24T06:24:54+00:00"
 }
